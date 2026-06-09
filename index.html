@@ -3,152 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HouseFinder | Find Your Perfect Home</title>
+  <title>HouseFinder | Find Your Perfect Rental</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <nav>
-    <div class="logo">🏠 HouseFinder</div>
-    <ul>
+    <div class="logo">
+      <span class="logo-dot"></span>HouseFinder
+    </div>
+    <ul id="navMenu">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="map.html">Search Houses</a></li>
       <li><a href="add.html">Add Property</a></li>
       <li><a href="about.html">About</a></li>
     </ul>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
   </nav>
 
   <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <span class="hero-tag">🔍 Location-Based Search</span>
-      <h1>Find Your <span class="accent">Perfect</span><br>Rental House</h1>
-      <p>Discover rental properties near you using our interactive map. Connect directly with owners — no middlemen.</p>
+    <div class="hero-left">
+      <span class="tag">Rental House Search</span>
+      <h1>Find your<br><em>perfect</em><br>rental home.</h1>
+      <p>Browse rental properties on an interactive map, filter by location and budget, and contact owners directly — no brokers, no commissions.</p>
       <div class="hero-actions">
-        <a href="map.html"><button class="btn-primary">View Houses on Map</button></a>
-        <a href="add.html"><button class="btn-secondary">List Your Property</button></a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat"><span class="stat-num">500+</span><span>Properties</span></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">20+</span><span>Cities</span></div>
-        <div class="stat-divider"></div>
-        <div class="stat"><span class="stat-num">100%</span><span>Free</span></div>
+        <a href="map.html"><button class="btn-primary">Search on Map →</button></a>
+        <a href="add.html"><button class="btn-outline">List a Property</button></a>
       </div>
     </div>
-    <div class="hero-image">
-      <div class="floating-card card1">
-        <span class="card-icon">🏡</span>
-        <div>
-          <strong>2BHK Available</strong>
-          <p>Hyderabad · ₹8,500/mo</p>
+    <div class="hero-right">
+      <div class="hero-illustration">
+        <div class="mini-card">
+          <div class="mini-card-icon">🏡</div>
+          <div class="mini-card-text">
+            <strong>2BHK Available</strong>
+            <span>Hyderabad · ₹8,500/mo</span>
+          </div>
         </div>
-      </div>
-      <div class="floating-card card2">
-        <span class="card-icon">📍</span>
-        <div>
-          <strong>Location Verified</strong>
-          <p>GPS coordinates mapped</p>
+        <div class="mini-card">
+          <div class="mini-card-icon">📍</div>
+          <div class="mini-card-text">
+            <strong>Map Verified</strong>
+            <span>GPS coordinates pinned</span>
+          </div>
         </div>
-      </div>
-      <div class="floating-card card3">
-        <span class="card-icon">📞</span>
-        <div>
-          <strong>Direct Contact</strong>
-          <p>No agents involved</p>
+        <div class="mini-card">
+          <div class="mini-card-icon">📞</div>
+          <div class="mini-card-text">
+            <strong>Direct Contact</strong>
+            <span>No agents involved</span>
+          </div>
         </div>
-      </div>
-      <div class="map-preview">
-        <div class="map-pin">📍</div>
-        <div class="map-circle"></div>
       </div>
     </div>
   </section>
 
   <section class="features">
-    <div class="section-label">WHY HOUSEFINDER</div>
-    <h2>Everything You Need<br>to Find a Home</h2>
-    <div class="card-container">
-      <div class="card">
-        <div class="card-icon-wrap" style="background:#eff6ff;">🗺️</div>
+    <div class="section-head">
+      <span class="tag">Why HouseFinder</span>
+      <h2>Everything you need<br>to find a home.</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card accent">
+        <div class="f-icon">🗺️</div>
         <h3>Map-Based Search</h3>
-        <p>Visualize all available rental properties on an interactive Google Map. See exactly where each house is located.</p>
+        <p>All rental properties are plotted as pins on Google Maps. See exactly where each house is before you visit.</p>
       </div>
-      <div class="card featured-card">
-        <div class="card-icon-wrap" style="background:#f0fdf4;">🔍</div>
+      <div class="feature-card">
+        <div class="f-icon">🔍</div>
         <h3>Smart Filters</h3>
-        <p>Filter by location, house type (1BHK, 2BHK, 3BHK), and rent range to find exactly what fits your budget.</p>
-        <span class="badge">Most Used</span>
+        <p>Filter by city, house type — 1BHK, 2BHK, 3BHK — and monthly rent range to find what fits you.</p>
       </div>
-      <div class="card">
-        <div class="card-icon-wrap" style="background:#fff7ed;">📞</div>
+      <div class="feature-card">
+        <div class="f-icon">📞</div>
         <h3>Direct Contact</h3>
-        <p>Get owner phone numbers directly from listings. No brokers, no commissions, no wasted time.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon-wrap" style="background:#fdf4ff;">📋</div>
-        <h3>Easy Listing</h3>
-        <p>Property owners can list their houses in minutes by filling a simple form with all required details.</p>
+        <p>Owner phone numbers are shown directly on property cards. Call them straight from the map.</p>
       </div>
     </div>
   </section>
 
-  <section class="how-it-works">
-    <div class="section-label">HOW IT WORKS</div>
-    <h2>Simple Steps to<br>Find Your Home</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-number">01</div>
-        <div class="step-content">
-          <h3>Search Your Location</h3>
-          <p>Enter your preferred city or area and apply filters for house type and rent range.</p>
-        </div>
+  <section class="how-section">
+    <div class="section-head">
+      <span class="tag">How It Works</span>
+      <h2>Three steps to<br>find your home.</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <h3>Search Your Area</h3>
+        <p>Enter your preferred city and select house type and rent range from the filters.</p>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step">
-        <div class="step-number">02</div>
-        <div class="step-content">
-          <h3>Explore on Map</h3>
-          <p>Browse all matching properties displayed as pins on the interactive Google Map.</p>
-        </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <h3>Explore the Map</h3>
+        <p>Matching properties appear as pins on the map. Click any pin to see full details.</p>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step">
-        <div class="step-number">03</div>
-        <div class="step-content">
-          <h3>Contact Owner</h3>
-          <p>Click any property pin to view full details and get the owner's contact number directly.</p>
-        </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <h3>Contact the Owner</h3>
+        <p>Get the owner's phone number from the property card and reach out directly.</p>
       </div>
     </div>
   </section>
 
   <section class="cta-section">
-    <h2>Ready to Find Your Next Home?</h2>
-    <p>Join hundreds of tenants who found their perfect rental through HouseFinder.</p>
-    <a href="map.html"><button class="btn-primary">Start Searching Now →</button></a>
+    <h2>Ready to find<br>your next home?</h2>
+    <p>Start browsing rental properties in your area right now.</p>
+    <a href="map.html"><button class="btn-primary">Open the Map →</button></a>
   </section>
 
   <footer>
     <div class="footer-inner">
-      <div class="footer-logo">🏠 HouseFinder</div>
+      <div class="footer-logo">
+        <span style="width:7px;height:7px;background:var(--sage);border-radius:50%;display:inline-block;"></span>
+        HouseFinder
+      </div>
       <ul class="footer-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="map.html">Search</a></li>
         <li><a href="add.html">Add Property</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
-      <p class="footer-copy">© 2026 Sri Pranvitha | HouseFinder Project</p>
+      <p class="footer-copy">© 2026 Sri Pranvitha · HouseFinder</p>
     </div>
   </footer>
 
   <script>
     function toggleMenu() {
-      document.querySelector('ul').classList.toggle('open');
+      document.getElementById('navMenu').classList.toggle('open');
     }
   </script>
-
 </body>
 </html>
