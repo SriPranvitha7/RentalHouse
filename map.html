@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HouseFinder | Search Houses</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="logo">
+      <span class="logo-dot"></span>HouseFinder
+    </div>
+    <ul id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="map.html" class="active">Search Houses</a></li>
+      <li><a href="add.html">Add Property</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  </nav>
+
+  <div class="map-page">
+
+    <aside class="map-sidebar">
+      <div class="sidebar-head">
+        <span class="tag">Search</span>
+        <h2>Find a rental</h2>
+      </div>
+
+      <div class="filter-block">
+        <label class="filter-label">Location</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">📍</span>
+          <input id="location" type="text" placeholder="City or area…">
+        </div>
+      </div>
+
+      <div class="filter-block">
+        <label class="filter-label">House Type</label>
+        <div class="type-pills">
+          <button class="pill active" data-value="" onclick="selectPill(this,'type')">Any</button>
+          <button class="pill" data-value="1BHK" onclick="selectPill(this,'type')">1BHK</button>
+          <button class="pill" data-value="2BHK" onclick="selectPill(this,'type')">2BHK</button>
+          <button class="pill" data-value="3BHK" onclick="selectPill(this,'type')">3BHK</button>
+        </div>
+        <input type="hidden" id="houseType" value="">
+      </div>
+
+      <div class="filter-block">
+        <label class="filter-label">Monthly Rent</label>
+        <div class="rent-pills">
+          <button class="pill active" data-value="" onclick="selectPill(this,'rent')">Any</button>
+          <button class="pill" data-value="0-5000" onclick="selectPill(this,'rent')">Under ₹5k</button>
+          <button class="pill" data-value="5000-10000" onclick="selectPill(this,'rent')">₹5k–10k</button>
+          <button class="pill" data-value="10000-50000" onclick="selectPill(this,'rent')">₹10k+</button>
+        </div>
+        <input type="hidden" id="rentRange" value="">
+      </div>
+
+      <div class="sidebar-actions">
+        <button class="btn-primary full-btn" onclick="searchHouses()">Search</button>
+        <button class="btn-ghost full-btn" onclick="resetSearch()">Clear filters</button>
+      </div>
+
+      <div id="resultCount" class="result-info" style="display:none;"></div>
+
+      <div class="sidebar-tip">
+        <p>Click any pin on the map to view property details and owner contact.</p>
+      </div>
+    </aside>
+
+    <div class="map-area">
+      <div id="map"></div>
+      <div id="noResults" class="no-results" style="display:none;">
+        <div class="no-results-inner">
+          <span class="no-r-icon">🔍</span>
+          <h3>No properties found</h3>
+          <p>Try a different location or adjust your filters.</p>
+          <button class="btn-ghost" onclick="resetSearch()">Clear filters</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+  <!--
+    Replace YOUR_API_KEY with your actual Google Maps API key.
+    Get one free at: https://console.cloud.google.com/
+    Enable "Maps JavaScript API" in your Google Cloud project.
+  -->
+  <script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('open');
+    }
+
+    function selectPill(btn, group) {
+      const container = btn.closest('.type-pills, .rent-pills');
+      container.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      if (group === 'type') document.getElementById('houseType').value = btn.dataset.value;
+      if (group === 'rent') document.getElementById('rentRange').value = btn.dataset.value;
+    }
+  </script>
+</body>
+</html>
