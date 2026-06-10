@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HouseFinder | Add Property</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="logo">
+      <span class="logo-dot"></span>HouseFinder
+    </div>
+    <ul id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="map.html">Search Houses</a></li>
+      <li><a href="add.html" class="active">Add Property</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  </nav>
+
+  <section class="form-section">
+    <div class="form-layout">
+
+      <div class="form-info">
+        <span class="tag">List Your Property</span>
+        <h2>Reach tenants<br>directly.</h2>
+        <p>Fill in your property details and let tenants find you on the map — for free, with no middlemen.</p>
+        <ul class="benefit-list">
+          <li>Free to list</li>
+          <li>Visible on Google Maps instantly</li>
+          <li>Tenants contact you directly</li>
+          <li>No broker fees</li>
+        </ul>
+        <div class="tip-box">
+          <strong>📌 Finding Latitude & Longitude</strong>
+          <p>Open <a href="https://maps.google.com" target="_blank">Google Maps</a>, right-click your property location, and copy the coordinates shown at the top of the menu.</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-title">Property Details</div>
+
+        <div id="successMessage" class="success-msg" style="display:none;">
+          Property listed successfully! It will appear on the map.
+        </div>
+        <div id="errorMessage" class="error-msg" style="display:none;"></div>
+
+        <div class="igroup">
+          <label>Owner Name</label>
+          <input id="owner" type="text" placeholder="Your full name">
+        </div>
+        <div class="igroup">
+          <label>Phone Number</label>
+          <input id="phone" type="tel" placeholder="10-digit mobile number" maxlength="10">
+        </div>
+        <div class="igroup">
+          <label>City / Area</label>
+          <input id="location" type="text" placeholder="e.g. Hyderabad">
+        </div>
+        <div class="igroup">
+          <label>Full Address</label>
+          <input id="address" type="text" placeholder="Street address with landmark">
+        </div>
+        <div class="irow">
+          <div class="igroup">
+            <label>Monthly Rent (₹)</label>
+            <input id="rent" type="number" placeholder="e.g. 8500" min="0">
+          </div>
+          <div class="igroup">
+            <label>House Type</label>
+            <select id="type">
+              <option value="">Select type</option>
+              <option value="1BHK">1BHK</option>
+              <option value="2BHK">2BHK</option>
+              <option value="3BHK">3BHK</option>
+            </select>
+          </div>
+        </div>
+        <div class="irow">
+          <div class="igroup">
+            <label>Latitude</label>
+            <input id="lat" type="number" step="any" placeholder="e.g. 17.3850">
+          </div>
+          <div class="igroup">
+            <label>Longitude</label>
+            <input id="lng" type="number" step="any" placeholder="e.g. 78.4867">
+          </div>
+        </div>
+
+        <button class="btn-primary submit-btn" onclick="addProperty(event)">Submit Property →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span style="width:7px;height:7px;background:var(--sage);border-radius:50%;display:inline-block;"></span>
+        HouseFinder
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="map.html">Search</a></li>
+        <li><a href="add.html">Add Property</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 Sri Pranvitha · HouseFinder</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

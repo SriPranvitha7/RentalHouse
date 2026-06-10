@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HouseFinder | About</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="logo">
+      <span class="logo-dot"></span>HouseFinder
+    </div>
+    <ul id="navMenu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="map.html">Search Houses</a></li>
+      <li><a href="add.html">Add Property</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  </nav>
+
+  <section class="about-hero">
+    <span class="tag">About the Project</span>
+    <h1>House<span>Finder</span></h1>
+    <p>A web-based rental search platform built to connect tenants and property owners directly — without brokers or fees.</p>
+  </section>
+
+  <section class="about-body">
+    <div class="about-grid">
+
+      <div class="about-text">
+        <h2>What this project does</h2>
+        <p>HouseFinder simplifies the house-hunting process by combining property listings, interactive map visualization, and location-aware search into one platform. Tenants can explore properties geographically, while owners can list houses in minutes.</p>
+        <p>The project was built as a full-stack web application using HTML, CSS, and JavaScript on the frontend with Google Maps API for map rendering, and Java with JDBC and MySQL for the backend data layer.</p>
+
+        <h2 style="margin-top:48px;">Key features</h2>
+        <div class="about-features">
+          <div class="af-row">
+            <div class="af-icon">🗺️</div>
+            <div>
+              <strong>Interactive map</strong>
+              <p>Properties are plotted using real GPS coordinates on Google Maps. Tenants see exactly where each house is located.</p>
+            </div>
+          </div>
+          <div class="af-row">
+            <div class="af-icon">🔍</div>
+            <div>
+              <strong>Location-aware search</strong>
+              <p>Search by city name, house type, and rent range. The map pans automatically to the searched area.</p>
+            </div>
+          </div>
+          <div class="af-row">
+            <div class="af-icon">📞</div>
+            <div>
+              <strong>Direct owner contact</strong>
+              <p>Owner phone numbers are shown in property info windows — no agents, no commissions.</p>
+            </div>
+          </div>
+          <div class="af-row">
+            <div class="af-icon">📋</div>
+            <div>
+              <strong>Easy property listing</strong>
+              <p>Owners can list houses by filling a simple form with location coordinates, rent, and contact details.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-sidebar">
+
+        <div class="side-card">
+          <h3>Tech Stack</h3>
+          <div class="tech-row"><span class="tech-badge tb-fe">Frontend</span> HTML5, CSS3, JavaScript</div>
+          <div class="tech-row"><span class="tech-badge tb-api">API</span> Google Maps JavaScript API</div>
+          <div class="tech-row"><span class="tech-badge tb-api">API</span> Nominatim (OpenStreetMap)</div>
+          <div class="tech-row"><span class="tech-badge tb-be">Backend</span> Java + JDBC</div>
+          <div class="tech-row"><span class="tech-badge tb-be">Backend</span> MySQL Database</div>
+        </div>
+
+        <div class="side-card dev-card">
+          <div class="dev-initials">SP</div>
+          <h3>Sri Pranvitha</h3>
+          <p>B.Tech CSE · KITS Warangal<br>2024 – 2028</p>
+          <div class="skill-pills">
+            <span>Java</span>
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>MySQL</span>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <h3>Project Status</h3>
+          <div class="tech-row" style="gap:12px;">
+            <span style="width:8px;height:8px;background:#22c55e;border-radius:50%;flex-shrink:0;"></span>
+            <span style="font-size:13px;">Frontend — Complete</span>
+          </div>
+          <div class="tech-row" style="gap:12px;">
+            <span style="width:8px;height:8px;background:#f59e0b;border-radius:50%;flex-shrink:0;"></span>
+            <span style="font-size:13px;">Backend — In progress</span>
+          </div>
+          <div class="tech-row" style="gap:12px;">
+            <span style="width:8px;height:8px;background:#e2e8f0;border-radius:50%;flex-shrink:0;"></span>
+            <span style="font-size:13px;">Deployment — Upcoming</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Want to try it?</h2>
+    <p>Search for properties or list your own house on the map.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="map.html"><button class="btn-primary">Search Houses →</button></a>
+      <a href="add.html"><button class="btn-outline-white">Add Property</button></a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span style="width:7px;height:7px;background:var(--sage);border-radius:50%;display:inline-block;"></span>
+        HouseFinder
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="map.html">Search</a></li>
+        <li><a href="add.html">Add Property</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 Sri Pranvitha · HouseFinder</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
