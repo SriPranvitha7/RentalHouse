@@ -1,20 +1,11 @@
 // ============================================================
-// RentalHouse — script.js
+// HouseFinder — script.js
 // ============================================================
+
+const API = "http://localhost:4567/api/properties";
 
 let map;
 let markers = [];
-
-// ── Load properties from localStorage ───────────────────────
-function getProperties() {
-  const saved = localStorage.getItem("hf_properties");
-  return saved ? JSON.parse(saved) : [];
-}
-
-// ── Save properties to localStorage ─────────────────────────
-function saveProperties(list) {
-  localStorage.setItem("hf_properties", JSON.stringify(list));
-}
 
 // ── Google Maps callback ─────────────────────────────────────
 function initMap() {
@@ -23,13 +14,19 @@ function initMap() {
     center: { lat: 17.3850, lng: 78.4867 },
     mapTypeControl: false,
     streetViewControl: false,
-    fullscreenControl: true,
-    styles: [
-      { featureType: "poi", elementType: "labels", stylers: [{ visibility: "off" }] }
-    ]
+    fullscreenControl: true
   });
 
-  createMarkers(getProperties());
+  // Load all properties from backend when map loads
+  fetchAndShowAll();
+}
+
+// ── Fetch all properties from backend and show on map ────────
+function fetchAndShowAll() {
+  fetch(API)
+    .then(res => res.json())
+    .then(data => createMarkers(data))
+    .catch(err => console.log("Backend error:", err));
 }
 
 // ── Create map markers ───────────────────────────────────────
@@ -63,7 +60,7 @@ function createMarkers(list) {
 
     const infoWindow = new google.maps.InfoWindow({
       content: `
-        <div style="font-family:'DM Sans',Arial,sans-serif; min-width:200px; padding:5px;">
+        <div style="font-family:Arial,sans-serif; min-width:200px; padding:5px;">
           <h3 style="margin:0 0 8px; color:#1e3a8a; font-size:16px;">${property.type}</h3>
           <p style="margin:4px 0;">👤 <strong>Owner:</strong> ${property.owner}</p>
           <p style="margin:4px 0;">📞 <strong>Phone:</strong> ${property.phone || "Not available"}</p>
@@ -75,7 +72,6 @@ function createMarkers(list) {
     });
 
     marker.addListener("click", () => {
-      // Close all other info windows
       markers.forEach(m => { if (m.infoWindow) m.infoWindow.close(); });
       infoWindow.open(map, marker);
     });
@@ -85,55 +81,41 @@ function createMarkers(list) {
   });
 }
 
-// ── Search / filter properties ───────────────────────────────
+// ── Search properties ────────────────────────────────────────
 function searchHouses() {
-  const loc = document.getElementById("location").value.trim().toLowerCase();
+  const loc  = document.getElementById("location").value.trim();
   const type = document.getElementById("houseType").value;
   const rent = document.getElementById("rentRange").value;
 
   if (loc === "" && type === "" && rent === "") {
-    alert("Please select at least one filter to search.");
+    alert("Please select at least one filter.");
     return;
   }
 
-  const properties = getProperties();
+  // Build query URL
+  let url = API + "?";
+  if (loc)  url += "location=" + encodeURIComponent(loc) + "&";
+  if (type) url += "type=" + encodeURIComponent(type) + "&";
+  if (rent) url += "rent=" + encodeURIComponent(rent);
 
-  const filtered = properties.filter(property => {
-    let matchLocation = true;
-    let matchType = true;
-    let matchRent = true;
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      createMarkers(data);
 
-    if (loc !== "") {
-      matchLocation = property.location.toLowerCase().includes(loc);
-    }
-    if (type !== "") {
-      matchType = property.type === type;
-    }
-    if (rent !== "") {
-      const [min, max] = rent.split("-").map(Number);
-      matchRent = property.rent >= min && property.rent <= max;
-    }
-
-    return matchLocation && matchType && matchRent;
-  });
-
-  createMarkers(filtered);
-
-  // Pan map to searched location
-  if (loc !== "") {
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(loc)}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length > 0) {
-          map.setCenter({
-            lat: parseFloat(data[0].lat),
-            lng: parseFloat(data[0].lon)
+      // Pan map to searched location
+      if (loc !== "") {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(loc)}`)
+          .then(r => r.json())
+          .then(geo => {
+            if (geo.length > 0) {
+              map.setCenter({ lat: parseFloat(geo[0].lat), lng: parseFloat(geo[0].lon) });
+              map.setZoom(12);
+            }
           });
-          map.setZoom(12);
-        }
-      })
-      .catch(() => console.log("Location pan failed"));
-  }
+      }
+    })
+    .catch(err => console.log("Search error:", err));
 }
 
 // ── Reset search ─────────────────────────────────────────────
@@ -142,18 +124,19 @@ function resetSearch() {
   document.getElementById("houseType").value = "";
   document.getElementById("rentRange").value = "";
 
+  // Reset pills
+  document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".pill[data-value='']").forEach(p => p.classList.add("active"));
+
   const resultCount = document.getElementById("resultCount");
   if (resultCount) resultCount.style.display = "none";
 
-  const noResults = document.getElementById("noResults");
-  if (noResults) noResults.style.display = "none";
-
-  createMarkers(getProperties());
+  fetchAndShowAll();
   map.setCenter({ lat: 17.3850, lng: 78.4867 });
   map.setZoom(7);
 }
 
-// ── Add a new property ───────────────────────────────────────
+// ── Add property — saves to MySQL via backend ────────────────
 function addProperty(event) {
   event.preventDefault();
 
@@ -161,49 +144,61 @@ function addProperty(event) {
   const phone    = document.getElementById("phone").value.trim();
   const location = document.getElementById("location").value.trim();
   const address  = document.getElementById("address").value.trim();
-  const rent     = parseInt(document.getElementById("rent").value);
+  const rent     = document.getElementById("rent").value.trim();
   const type     = document.getElementById("type").value;
-  const lat      = parseFloat(document.getElementById("lat").value);
-  const lng      = parseFloat(document.getElementById("lng").value);
+  const lat      = document.getElementById("lat").value.trim();
+  const lng      = document.getElementById("lng").value.trim();
 
-  // Basic validation
-  const errorMsg = document.getElementById("errorMessage");
+  const errorMsg   = document.getElementById("errorMessage");
+  const successMsg = document.getElementById("successMessage");
+
   errorMsg.style.display = "none";
+  successMsg.style.display = "none";
 
-  if (!owner || !phone || !location || !address || !rent || !type || isNaN(lat) || isNaN(lng)) {
-    errorMsg.textContent = "⚠️ Please fill in all fields correctly.";
+  // Validation
+  if (!owner || !phone || !location || !address || !rent || !type || !lat || !lng) {
+    errorMsg.textContent = "Please fill in all fields.";
     errorMsg.style.display = "block";
     return;
   }
 
   if (phone.length < 10) {
-    errorMsg.textContent = "⚠️ Please enter a valid 10-digit phone number.";
+    errorMsg.textContent = "Please enter a valid 10-digit phone number.";
     errorMsg.style.display = "block";
     return;
   }
 
-  if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
-    errorMsg.textContent = "⚠️ Please enter valid latitude and longitude values.";
-    errorMsg.style.display = "block";
-    return;
-  }
+  // Build form data string
+  const body = `owner=${encodeURIComponent(owner)}`
+    + `&phone=${encodeURIComponent(phone)}`
+    + `&location=${encodeURIComponent(location)}`
+    + `&address=${encodeURIComponent(address)}`
+    + `&rent=${encodeURIComponent(rent)}`
+    + `&type=${encodeURIComponent(type)}`
+    + `&lat=${encodeURIComponent(lat)}`
+    + `&lng=${encodeURIComponent(lng)}`;
 
-  const newProperty = { owner, phone, location, address, rent, type, lat, lng };
-
-  const properties = getProperties();
-  properties.push(newProperty);
-  saveProperties(properties);
-
-  // Show success
-  const successMsg = document.getElementById("successMessage");
-  successMsg.style.display = "block";
-
-  // Reset all fields
-  ["owner","phone","location","address","rent","type","lat","lng"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = "";
-  });
-
-  // Scroll to top of form
-  successMsg.scrollIntoView({ behavior: "smooth" });
+  // Send to backend
+  fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "success") {
+        successMsg.style.display = "block";
+        // Clear all fields
+        ["owner","phone","location","address","rent","type","lat","lng"]
+          .forEach(id => document.getElementById(id).value = "");
+        successMsg.scrollIntoView({ behavior: "smooth" });
+      } else {
+        errorMsg.textContent = data.message || "Something went wrong.";
+        errorMsg.style.display = "block";
+      }
+    })
+    .catch(err => {
+      errorMsg.textContent = "Cannot connect to server. Make sure backend is running.";
+      errorMsg.style.display = "block";
+    });
 }
